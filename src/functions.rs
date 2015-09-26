@@ -1,26 +1,23 @@
 extern crate xiapi_sys;
 extern crate libc;
+extern crate num;
 
-use libc::c_void;
-use std::mem;
-use std::ffi::CString;
 use xiapi_sys::xiapi::*;
 use super::constants::xiReturn;
-use super::types::*;
+//use super::types::*;
+use num::FromPrimitive;
 
 pub fn get_num_devices() -> u32 {
     let mut num_devices = 0u32;
-    let mut enum_return_value: xiReturn = xiReturn::OK;
     unsafe {
-        let return_value = xiapi_sys::xiapi::xiGetNumberDevices(&mut num_devices);
-        enum_return_value= return_value;
-    }
-    match enum_return_value {
-        xiReturn::OK => {
-            return num_devices;
-        }
-        _ => {
-            panic!("getNumberDevices failed");
+        match xiReturn::from_i32(xiapi_sys::xiapi::xiGetNumberDevices(&mut num_devices)).unwrap()
+        {
+            xiReturn::OK => {
+                return num_devices;
+            }
+            _ => {
+                panic!("getNumberDevices failed");
+            }
         }
     }
 

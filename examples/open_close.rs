@@ -17,7 +17,7 @@ fn run() -> Result<(),String> {
 
     let device_index = 0;
 
-    let mut vid = xiapi::start_capture(device_index);
+    //let mut vid = xiapi::start_capture(device_index);
 
     //     let wIndex = 0;
     //

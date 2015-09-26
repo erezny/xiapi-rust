@@ -1,9 +1,7 @@
+#![allow(non_snake_case)]
 extern crate xiapi_sys;
 extern crate libc;
 
-use libc::c_void;
-use std::mem;
-use std::ffi::CString;
 use super::constants::*;
 use std::vec::Vec;
 
@@ -61,9 +59,9 @@ pub struct Img {
     pub transport_frm: GenTLImageFormat,
     pub img_desc: ImgDesc,
 }
-impl ::std::clone::Clone for Img {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Img {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
+// impl ::std::clone::Clone for Img {
+//     fn clone(&self) -> Self {  }
+// }
+// impl ::std::default::Default for Img {
+//     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+// }

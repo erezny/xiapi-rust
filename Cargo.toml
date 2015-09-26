@@ -5,6 +5,8 @@ authors = ["Elliott Rezny <erezny@gmail.com>"]
 
 [dependencies]
 libc = "*"
+enum_primitive = "*"
+num = "*"
 
 [dependencies.xiapi_sys]
 git = "https://github.com/erezny/xiapi_sys-rust"

@@ -1,11 +1,13 @@
+#![allow(non_snake_case, non_camel_case_types)]
 extern crate xiapi_sys;
 extern crate libc;
+extern crate num;
 
-use libc::{c_void,c_char};
-use std::mem;
+use libc::c_char;
 use std::ffi::CString;
 use std::convert::Into;
 
+#[repr(u32)]
 pub enum ModelID
 {
 UNKNOWN = xiapi_sys::xiapi::MODEL_ID_UNKNOWN,
@@ -142,6 +144,8 @@ MQ013CG_ON = xiapi_sys::xiapi::MODEL_ID_MQ013CG_ON,
 MQ013MG_ON = xiapi_sys::xiapi::MODEL_ID_MQ013MG_ON,
 
 }
+
+#[repr(u32)]
 pub enum GenTLImageFormat {
 
 Mono8 	=	 xiapi_sys::xiapi::XI_GenTL_Image_Format_Mono8,
@@ -241,85 +245,89 @@ xiBayerGR14TS03 	=	 xiapi_sys::xiapi::XI_GenTL_Image_Format_xiBayerGR14TS03,
 
 }
 
-pub enum xiReturn {
-OK 	=	 xiapi_sys::xiapi::XI_OK,
-INVALID_HANDLE 	=	 xiapi_sys::xiapi::XI_INVALID_HANDLE,
-READREG 	=	 xiapi_sys::xiapi::XI_READREG,
-WRITEREG 	=	 xiapi_sys::xiapi::XI_WRITEREG,
-FREE_RESOURCES 	=	 xiapi_sys::xiapi::XI_FREE_RESOURCES,
-FREE_CHANNEL 	=	 xiapi_sys::xiapi::XI_FREE_CHANNEL,
-FREE_BANDWIDTH 	=	 xiapi_sys::xiapi::XI_FREE_BANDWIDTH,
-READBLK 	=	 xiapi_sys::xiapi::XI_READBLK,
-WRITEBLK 	=	 xiapi_sys::xiapi::XI_WRITEBLK,
-NO_IMAGE 	=	 xiapi_sys::xiapi::XI_NO_IMAGE,
-TIMEOUT 	=	 xiapi_sys::xiapi::XI_TIMEOUT,
-INVALID_ARG 	=	 xiapi_sys::xiapi::XI_INVALID_ARG,
-NOT_SUPPORTED 	=	 xiapi_sys::xiapi::XI_NOT_SUPPORTED,
-ISOCH_ATTACH_BUFFERS 	=	 xiapi_sys::xiapi::XI_ISOCH_ATTACH_BUFFERS,
-GET_OVERLAPPED_RESULT 	=	 xiapi_sys::xiapi::XI_GET_OVERLAPPED_RESULT,
-MEMORY_ALLOCATION 	=	 xiapi_sys::xiapi::XI_MEMORY_ALLOCATION,
-DLLCONTEXTISNULL 	=	 xiapi_sys::xiapi::XI_DLLCONTEXTISNULL,
-DLLCONTEXTISNONZERO 	=	 xiapi_sys::xiapi::XI_DLLCONTEXTISNONZERO,
-DLLCONTEXTEXIST 	=	 xiapi_sys::xiapi::XI_DLLCONTEXTEXIST,
-TOOMANYDEVICES 	=	 xiapi_sys::xiapi::XI_TOOMANYDEVICES,
-ERRORCAMCONTEXT 	=	 xiapi_sys::xiapi::XI_ERRORCAMCONTEXT,
-UNKNOWN_HARDWARE 	=	 xiapi_sys::xiapi::XI_UNKNOWN_HARDWARE,
-INVALID_TM_FILE 	=	 xiapi_sys::xiapi::XI_INVALID_TM_FILE,
-INVALID_TM_TAG 	=	 xiapi_sys::xiapi::XI_INVALID_TM_TAG,
-INCOMPLETE_TM 	=	 xiapi_sys::xiapi::XI_INCOMPLETE_TM,
-BUS_RESET_FAILED 	=	 xiapi_sys::xiapi::XI_BUS_RESET_FAILED,
-NOT_IMPLEMENTED 	=	 xiapi_sys::xiapi::XI_NOT_IMPLEMENTED,
-SHADING_TOOBRIGHT 	=	 xiapi_sys::xiapi::XI_SHADING_TOOBRIGHT,
-SHADING_TOODARK 	=	 xiapi_sys::xiapi::XI_SHADING_TOODARK,
-TOO_LOW_GAIN 	=	 xiapi_sys::xiapi::XI_TOO_LOW_GAIN,
-INVALID_BPL 	=	 xiapi_sys::xiapi::XI_INVALID_BPL,
-BPL_REALLOC 	=	 xiapi_sys::xiapi::XI_BPL_REALLOC,
-INVALID_PIXEL_LIST 	=	 xiapi_sys::xiapi::XI_INVALID_PIXEL_LIST,
-INVALID_FFS 	=	 xiapi_sys::xiapi::XI_INVALID_FFS,
-INVALID_PROFILE 	=	 xiapi_sys::xiapi::XI_INVALID_PROFILE,
-INVALID_CALIBRATION 	=	 xiapi_sys::xiapi::XI_INVALID_CALIBRATION,
-INVALID_BUFFER 	=	 xiapi_sys::xiapi::XI_INVALID_BUFFER,
-INVALID_DATA 	=	 xiapi_sys::xiapi::XI_INVALID_DATA,
-TGBUSY 	=	 xiapi_sys::xiapi::XI_TGBUSY,
-IO_WRONG 	=	 xiapi_sys::xiapi::XI_IO_WRONG,
-ACQUISITION_ALREADY_UP 	=	 xiapi_sys::xiapi::XI_ACQUISITION_ALREADY_UP,
-OLD_DRIVER_VERSION 	=	 xiapi_sys::xiapi::XI_OLD_DRIVER_VERSION,
-GET_LAST_ERROR 	=	 xiapi_sys::xiapi::XI_GET_LAST_ERROR,
-CANT_PROCESS 	=	 xiapi_sys::xiapi::XI_CANT_PROCESS,
-ACQUISITION_STOPED 	=	 xiapi_sys::xiapi::XI_ACQUISITION_STOPED,
-ACQUISITION_STOPED_WERR 	=	 xiapi_sys::xiapi::XI_ACQUISITION_STOPED_WERR,
-INVALID_INPUT_ICC_PROFILE 	=	 xiapi_sys::xiapi::XI_INVALID_INPUT_ICC_PROFILE,
-INVALID_OUTPUT_ICC_PROFILE 	=	 xiapi_sys::xiapi::XI_INVALID_OUTPUT_ICC_PROFILE,
-DEVICE_NOT_READY 	=	 xiapi_sys::xiapi::XI_DEVICE_NOT_READY,
-SHADING_TOOCONTRAST 	=	 xiapi_sys::xiapi::XI_SHADING_TOOCONTRAST,
-ALREADY_INITIALIZED 	=	 xiapi_sys::xiapi::XI_ALREADY_INITIALIZED,
-NOT_ENOUGH_PRIVILEGES 	=	 xiapi_sys::xiapi::XI_NOT_ENOUGH_PRIVILEGES,
-NOT_COMPATIBLE_DRIVER 	=	 xiapi_sys::xiapi::XI_NOT_COMPATIBLE_DRIVER,
-TM_INVALID_RESOURCE 	=	 xiapi_sys::xiapi::XI_TM_INVALID_RESOURCE,
-DEVICE_HAS_BEEN_RESETED 	=	 xiapi_sys::xiapi::XI_DEVICE_HAS_BEEN_RESETED,
-NO_DEVICES_FOUND 	=	 xiapi_sys::xiapi::XI_NO_DEVICES_FOUND,
-RESOURCE_OR_FUNCTION_LOCKED 	=	 xiapi_sys::xiapi::XI_RESOURCE_OR_FUNCTION_LOCKED,
-BUFFER_SIZE_TOO_SMALL 	=	 xiapi_sys::xiapi::XI_BUFFER_SIZE_TOO_SMALL,
-COULDNT_INIT_PROCESSOR 	=	 xiapi_sys::xiapi::XI_COULDNT_INIT_PROCESSOR,
-NOT_INITIALIZED 	=	 xiapi_sys::xiapi::XI_NOT_INITIALIZED,
-UNKNOWN_PARAM 	=	 xiapi_sys::xiapi::XI_UNKNOWN_PARAM,
-WRONG_PARAM_VALUE 	=	 xiapi_sys::xiapi::XI_WRONG_PARAM_VALUE,
-WRONG_PARAM_TYPE 	=	 xiapi_sys::xiapi::XI_WRONG_PARAM_TYPE,
-WRONG_PARAM_SIZE 	=	 xiapi_sys::xiapi::XI_WRONG_PARAM_SIZE,
-BUFFER_TOO_SMALL 	=	 xiapi_sys::xiapi::XI_BUFFER_TOO_SMALL,
-NOT_SUPPORTED_PARAM 	=	 xiapi_sys::xiapi::XI_NOT_SUPPORTED_PARAM,
-NOT_SUPPORTED_PARAM_INFO 	=	 xiapi_sys::xiapi::XI_NOT_SUPPORTED_PARAM_INFO,
-NOT_SUPPORTED_DATA_FORMAT 	=	 xiapi_sys::xiapi::XI_NOT_SUPPORTED_DATA_FORMAT,
-READ_ONLY_PARAM 	=	 xiapi_sys::xiapi::XI_READ_ONLY_PARAM,
-BANDWIDTH_NOT_SUPPORTED 	=	 xiapi_sys::xiapi::XI_BANDWIDTH_NOT_SUPPORTED,
-INVALID_FFS_FILE_NAME 	=	 xiapi_sys::xiapi::XI_INVALID_FFS_FILE_NAME,
-FFS_FILE_NOT_FOUND 	=	 xiapi_sys::xiapi::XI_FFS_FILE_NOT_FOUND,
-PROC_OTHER_ERROR 	=	 xiapi_sys::xiapi::XI_PROC_OTHER_ERROR,
-PROC_PROCESSING_ERROR 	=	 xiapi_sys::xiapi::XI_PROC_PROCESSING_ERROR,
-PROC_INPUT_FORMAT_UNSUPPORTED 	=	 xiapi_sys::xiapi::XI_PROC_INPUT_FORMAT_UNSUPPORTED,
-
+enum_from_primitive! {
+    #[derive(Debug, PartialEq)]
+    #[repr(u32)]
+    pub enum xiReturn {
+    OK 	=	 xiapi_sys::xiapi::XI_OK,
+    INVALID_HANDLE 	=	 xiapi_sys::xiapi::XI_INVALID_HANDLE,
+    READREG 	=	 xiapi_sys::xiapi::XI_READREG,
+    WRITEREG 	=	 xiapi_sys::xiapi::XI_WRITEREG,
+    FREE_RESOURCES 	=	 xiapi_sys::xiapi::XI_FREE_RESOURCES,
+    FREE_CHANNEL 	=	 xiapi_sys::xiapi::XI_FREE_CHANNEL,
+    FREE_BANDWIDTH 	=	 xiapi_sys::xiapi::XI_FREE_BANDWIDTH,
+    READBLK 	=	 xiapi_sys::xiapi::XI_READBLK,
+    WRITEBLK 	=	 xiapi_sys::xiapi::XI_WRITEBLK,
+    NO_IMAGE 	=	 xiapi_sys::xiapi::XI_NO_IMAGE,
+    TIMEOUT 	=	 xiapi_sys::xiapi::XI_TIMEOUT,
+    INVALID_ARG 	=	 xiapi_sys::xiapi::XI_INVALID_ARG,
+    NOT_SUPPORTED 	=	 xiapi_sys::xiapi::XI_NOT_SUPPORTED,
+    ISOCH_ATTACH_BUFFERS 	=	 xiapi_sys::xiapi::XI_ISOCH_ATTACH_BUFFERS,
+    GET_OVERLAPPED_RESULT 	=	 xiapi_sys::xiapi::XI_GET_OVERLAPPED_RESULT,
+    MEMORY_ALLOCATION 	=	 xiapi_sys::xiapi::XI_MEMORY_ALLOCATION,
+    DLLCONTEXTISNULL 	=	 xiapi_sys::xiapi::XI_DLLCONTEXTISNULL,
+    DLLCONTEXTISNONZERO 	=	 xiapi_sys::xiapi::XI_DLLCONTEXTISNONZERO,
+    DLLCONTEXTEXIST 	=	 xiapi_sys::xiapi::XI_DLLCONTEXTEXIST,
+    TOOMANYDEVICES 	=	 xiapi_sys::xiapi::XI_TOOMANYDEVICES,
+    ERRORCAMCONTEXT 	=	 xiapi_sys::xiapi::XI_ERRORCAMCONTEXT,
+    UNKNOWN_HARDWARE 	=	 xiapi_sys::xiapi::XI_UNKNOWN_HARDWARE,
+    INVALID_TM_FILE 	=	 xiapi_sys::xiapi::XI_INVALID_TM_FILE,
+    INVALID_TM_TAG 	=	 xiapi_sys::xiapi::XI_INVALID_TM_TAG,
+    INCOMPLETE_TM 	=	 xiapi_sys::xiapi::XI_INCOMPLETE_TM,
+    BUS_RESET_FAILED 	=	 xiapi_sys::xiapi::XI_BUS_RESET_FAILED,
+    NOT_IMPLEMENTED 	=	 xiapi_sys::xiapi::XI_NOT_IMPLEMENTED,
+    SHADING_TOOBRIGHT 	=	 xiapi_sys::xiapi::XI_SHADING_TOOBRIGHT,
+    SHADING_TOODARK 	=	 xiapi_sys::xiapi::XI_SHADING_TOODARK,
+    TOO_LOW_GAIN 	=	 xiapi_sys::xiapi::XI_TOO_LOW_GAIN,
+    INVALID_BPL 	=	 xiapi_sys::xiapi::XI_INVALID_BPL,
+    BPL_REALLOC 	=	 xiapi_sys::xiapi::XI_BPL_REALLOC,
+    INVALID_PIXEL_LIST 	=	 xiapi_sys::xiapi::XI_INVALID_PIXEL_LIST,
+    INVALID_FFS 	=	 xiapi_sys::xiapi::XI_INVALID_FFS,
+    INVALID_PROFILE 	=	 xiapi_sys::xiapi::XI_INVALID_PROFILE,
+    INVALID_CALIBRATION 	=	 xiapi_sys::xiapi::XI_INVALID_CALIBRATION,
+    INVALID_BUFFER 	=	 xiapi_sys::xiapi::XI_INVALID_BUFFER,
+    INVALID_DATA 	=	 xiapi_sys::xiapi::XI_INVALID_DATA,
+    TGBUSY 	=	 xiapi_sys::xiapi::XI_TGBUSY,
+    IO_WRONG 	=	 xiapi_sys::xiapi::XI_IO_WRONG,
+    ACQUISITION_ALREADY_UP 	=	 xiapi_sys::xiapi::XI_ACQUISITION_ALREADY_UP,
+    OLD_DRIVER_VERSION 	=	 xiapi_sys::xiapi::XI_OLD_DRIVER_VERSION,
+    GET_LAST_ERROR 	=	 xiapi_sys::xiapi::XI_GET_LAST_ERROR,
+    CANT_PROCESS 	=	 xiapi_sys::xiapi::XI_CANT_PROCESS,
+    ACQUISITION_STOPED 	=	 xiapi_sys::xiapi::XI_ACQUISITION_STOPED,
+    ACQUISITION_STOPED_WERR 	=	 xiapi_sys::xiapi::XI_ACQUISITION_STOPED_WERR,
+    INVALID_INPUT_ICC_PROFILE 	=	 xiapi_sys::xiapi::XI_INVALID_INPUT_ICC_PROFILE,
+    INVALID_OUTPUT_ICC_PROFILE 	=	 xiapi_sys::xiapi::XI_INVALID_OUTPUT_ICC_PROFILE,
+    DEVICE_NOT_READY 	=	 xiapi_sys::xiapi::XI_DEVICE_NOT_READY,
+    SHADING_TOOCONTRAST 	=	 xiapi_sys::xiapi::XI_SHADING_TOOCONTRAST,
+    ALREADY_INITIALIZED 	=	 xiapi_sys::xiapi::XI_ALREADY_INITIALIZED,
+    NOT_ENOUGH_PRIVILEGES 	=	 xiapi_sys::xiapi::XI_NOT_ENOUGH_PRIVILEGES,
+    NOT_COMPATIBLE_DRIVER 	=	 xiapi_sys::xiapi::XI_NOT_COMPATIBLE_DRIVER,
+    TM_INVALID_RESOURCE 	=	 xiapi_sys::xiapi::XI_TM_INVALID_RESOURCE,
+    DEVICE_HAS_BEEN_RESETED 	=	 xiapi_sys::xiapi::XI_DEVICE_HAS_BEEN_RESETED,
+    NO_DEVICES_FOUND 	=	 xiapi_sys::xiapi::XI_NO_DEVICES_FOUND,
+    RESOURCE_OR_FUNCTION_LOCKED 	=	 xiapi_sys::xiapi::XI_RESOURCE_OR_FUNCTION_LOCKED,
+    BUFFER_SIZE_TOO_SMALL 	=	 xiapi_sys::xiapi::XI_BUFFER_SIZE_TOO_SMALL,
+    COULDNT_INIT_PROCESSOR 	=	 xiapi_sys::xiapi::XI_COULDNT_INIT_PROCESSOR,
+    NOT_INITIALIZED 	=	 xiapi_sys::xiapi::XI_NOT_INITIALIZED,
+    UNKNOWN_PARAM 	=	 xiapi_sys::xiapi::XI_UNKNOWN_PARAM,
+    WRONG_PARAM_VALUE 	=	 xiapi_sys::xiapi::XI_WRONG_PARAM_VALUE,
+    WRONG_PARAM_TYPE 	=	 xiapi_sys::xiapi::XI_WRONG_PARAM_TYPE,
+    WRONG_PARAM_SIZE 	=	 xiapi_sys::xiapi::XI_WRONG_PARAM_SIZE,
+    BUFFER_TOO_SMALL 	=	 xiapi_sys::xiapi::XI_BUFFER_TOO_SMALL,
+    NOT_SUPPORTED_PARAM 	=	 xiapi_sys::xiapi::XI_NOT_SUPPORTED_PARAM,
+    NOT_SUPPORTED_PARAM_INFO 	=	 xiapi_sys::xiapi::XI_NOT_SUPPORTED_PARAM_INFO,
+    NOT_SUPPORTED_DATA_FORMAT 	=	 xiapi_sys::xiapi::XI_NOT_SUPPORTED_DATA_FORMAT,
+    READ_ONLY_PARAM 	=	 xiapi_sys::xiapi::XI_READ_ONLY_PARAM,
+    BANDWIDTH_NOT_SUPPORTED 	=	 xiapi_sys::xiapi::XI_BANDWIDTH_NOT_SUPPORTED,
+    INVALID_FFS_FILE_NAME 	=	 xiapi_sys::xiapi::XI_INVALID_FFS_FILE_NAME,
+    FFS_FILE_NOT_FOUND 	=	 xiapi_sys::xiapi::XI_FFS_FILE_NOT_FOUND,
+    PROC_OTHER_ERROR 	=	 xiapi_sys::xiapi::XI_PROC_OTHER_ERROR,
+    PROC_PROCESSING_ERROR 	=	 xiapi_sys::xiapi::XI_PROC_PROCESSING_ERROR,
+    PROC_INPUT_FORMAT_UNSUPPORTED 	=	 xiapi_sys::xiapi::XI_PROC_INPUT_FORMAT_UNSUPPORTED,
+}
 }
 
+#[repr(u32)]
 pub enum DebugLevel {
     DETAIL 	=	 xiapi_sys::xiapi::XI_DL_DETAIL,
     TRACE 	=	 xiapi_sys::xiapi::XI_DL_TRACE,
@@ -329,6 +337,7 @@ pub enum DebugLevel {
     DISABLED 	=	 xiapi_sys::xiapi::XI_DL_DISABLED,
 }
 
+#[repr(u32)]
 pub enum ImgFormat {
     MONO8 	     =	 xiapi_sys::xiapi::XI_MONO8,
     MONO16       =	 xiapi_sys::xiapi::XI_MONO16,
@@ -340,6 +349,7 @@ pub enum ImgFormat {
     FRM_TRANSPORT_DATA 	=	 xiapi_sys::xiapi::XI_FRM_TRANSPORT_DATA,
 }
 
+#[repr(u32)]
 pub enum ColorFilterArray {
 NONE 	=	 xiapi_sys::xiapi::XI_CFA_NONE,
 BAYER_RGGB 	=	 xiapi_sys::xiapi::XI_CFA_BAYER_RGGB,
@@ -350,11 +360,13 @@ BAYER_GRBG 	=	 xiapi_sys::xiapi::XI_CFA_BAYER_GRBG,
 BAYER_GBRG 	=	 xiapi_sys::xiapi::XI_CFA_BAYER_GBRG,
 }
 
+#[repr(u32)]
 pub enum BufferPolicy {
 UNSAFE 	=	 xiapi_sys::xiapi::XI_BP_UNSAFE,
 SAFE 	=	 xiapi_sys::xiapi::XI_BP_SAFE,
 }
 
+#[repr(u32)]
 pub enum TriggerSource {
 OFF 	=	 xiapi_sys::xiapi::XI_TRG_OFF,
 EDGE_RISING 	=	 xiapi_sys::xiapi::XI_TRG_EDGE_RISING,
@@ -362,6 +374,7 @@ EDGE_FALLING 	=	 xiapi_sys::xiapi::XI_TRG_EDGE_FALLING,
 SOFTWARE 	=	 xiapi_sys::xiapi::XI_TRG_SOFTWARE,
 }
 
+#[repr(u32)]
 pub enum TriggerSelector {
 FRAME_START 	=	 xiapi_sys::xiapi::XI_TRG_SEL_FRAME_START,
 EXPOSURE_ACTIVE 	=	 xiapi_sys::xiapi::XI_TRG_SEL_EXPOSURE_ACTIVE,
@@ -370,17 +383,20 @@ FRAME_BURST_ACTIVE 	=	 xiapi_sys::xiapi::XI_TRG_SEL_FRAME_BURST_ACTIVE,
 MULTIPLE_EXPOSURES 	=	 xiapi_sys::xiapi::XI_TRG_SEL_MULTIPLE_EXPOSURES,
 }
 
+#[repr(u32)]
 pub enum ACQTimingMode {
 FREE_RUN 	=	 xiapi_sys::xiapi::XI_ACQ_TIMING_MODE_FREE_RUN,
 FRAME_RATE 	=	 xiapi_sys::xiapi::XI_ACQ_TIMING_MODE_FRAME_RATE,
 }
 
+#[repr(u32)]
 pub enum GPIMode {
 OFF 	=	 xiapi_sys::xiapi::XI_GPI_OFF,
 TRIGGER 	=	 xiapi_sys::xiapi::XI_GPI_TRIGGER,
 EXT_EVENT 	=	 xiapi_sys::xiapi::XI_GPI_EXT_EVENT,
 }
 
+#[repr(u32)]
 pub enum GPOMode {
 OFF 	=	 xiapi_sys::xiapi::XI_GPO_OFF,
 ON 	=	 xiapi_sys::xiapi::XI_GPO_ON,
@@ -396,6 +412,7 @@ BUSY 	=	 xiapi_sys::xiapi::XI_GPO_BUSY,
 BUSY_NEG 	=	 xiapi_sys::xiapi::XI_GPO_BUSY_NEG,
 }
 
+#[repr(u32)]
 pub enum LEDMode {
 HEARTBEAT 	=	 xiapi_sys::xiapi::XI_LED_HEARTBEAT,
 TRIGGER_ACTIVE 	=	 xiapi_sys::xiapi::XI_LED_TRIGGER_ACTIVE,
@@ -409,17 +426,20 @@ ON 	=	 xiapi_sys::xiapi::XI_LED_ON,
 BLINK 	=	 xiapi_sys::xiapi::XI_LED_BLINK,
 }
 
+#[repr(u32)]
 pub enum CounterSelector {
 TRANSPORT_SKIPPED_FRAMES 	=	 xiapi_sys::xiapi::XI_CNT_SEL_TRANSPORT_SKIPPED_FRAMES,
 API_SKIPPED_FRAMES 	=	 xiapi_sys::xiapi::XI_CNT_SEL_API_SKIPPED_FRAMES,
 TRANSPORT_TRANSFERRED_FRAMES 	=	 xiapi_sys::xiapi::XI_CNT_SEL_TRANSPORT_TRANSFERRED_FRAMES,
 }
 
+#[repr(u32)]
 pub enum TimestampResetMode {
 ARM_ONCE 	=	 xiapi_sys::xiapi::XI_TS_RST_ARM_ONCE,
 ARM_PERSIST 	=	 xiapi_sys::xiapi::XI_TS_RST_ARM_PERSIST,
 }
 
+#[repr(u32)]
 pub enum TimestampResetSource {
 OFF 	=	 xiapi_sys::xiapi::XI_TS_RST_OFF,
 GPI_1 	=	 xiapi_sys::xiapi::XI_TS_RST_SRC_GPI_1,
@@ -447,51 +467,60 @@ FVAL 	=	 xiapi_sys::xiapi::XI_TS_RST_SRC_FVAL,
 FVAL_INV 	=	 xiapi_sys::xiapi::XI_TS_RST_SRC_FVAL_INV,
 }
 
+#[repr(u32)]
 pub enum PRMType {
 Int     =   xiapi_sys::xiapi::xiTypeInteger,
 Float   =   xiapi_sys::xiapi::xiTypeFloat,
 Str     =   xiapi_sys::xiapi::xiTypeString,
 }
 
+#[repr(u32)]
 pub enum Switch{
     OFF 	=	 xiapi_sys::xiapi::XI_OFF,
     ON 	=	 xiapi_sys::xiapi::XI_ON,
 }
 
+#[repr(u32)]
 pub enum OutputDataPackignType{
 DATA_PACK_XI_GROUPING 	=	 xiapi_sys::xiapi::XI_DATA_PACK_XI_GROUPING,
 DATA_PACK_PFNC_LSB_PACKING 	=	 xiapi_sys::xiapi::XI_DATA_PACK_PFNC_LSB_PACKING,
 }
 
+#[repr(u32)]
 pub enum DowndamplingType{
 BINNING 	=	 xiapi_sys::xiapi::XI_BINNING,
 SKIPPING 	=	 xiapi_sys::xiapi::XI_SKIPPING,
 }
 
+#[repr(u32)]
 pub enum GainSelectorType{
 GAIN_SELECTOR_ALL 	=	 xiapi_sys::xiapi::XI_GAIN_SELECTOR_ALL,
 GAIN_SELECTOR_ANALOG_ALL 	=	 xiapi_sys::xiapi::XI_GAIN_SELECTOR_ANALOG_ALL,
 GAIN_SELECTOR_DIGITAL_ALL 	=	 xiapi_sys::xiapi::XI_GAIN_SELECTOR_DIGITAL_ALL,
 }
 
+#[repr(u32)]
 pub enum ShutterType{
 SHUTTER_GLOBAL 	=	 xiapi_sys::xiapi::XI_SHUTTER_GLOBAL,
 SHUTTER_ROLLING 	=	 xiapi_sys::xiapi::XI_SHUTTER_ROLLING,
 SHUTTER_GLOBAL_RESET_RELEASE 	=	 xiapi_sys::xiapi::XI_SHUTTER_GLOBAL_RESET_RELEASE,
 }
 
+#[repr(u32)]
 pub enum CMSMode{
 CMS_DIS 	=	 xiapi_sys::xiapi::XI_CMS_DIS,
 CMS_EN 	=	 xiapi_sys::xiapi::XI_CMS_EN,
 CMS_EN_FAST 	=	 xiapi_sys::xiapi::XI_CMS_EN_FAST,
 }
 
+#[repr(u32)]
 pub enum OpenBy{
 OPEN_BY_INST_PATH 	=	 xiapi_sys::xiapi::XI_OPEN_BY_INST_PATH,
 OPEN_BY_SN 	=	 xiapi_sys::xiapi::XI_OPEN_BY_SN,
 OPEN_BY_USER_ID 	=	 xiapi_sys::xiapi::XI_OPEN_BY_USER_ID,
 }
 
+#[repr(u32)]
 pub enum LensFeature{
 LENS_FEATURE_MOTORIZED_FOCUS_SWITCH 	=	 xiapi_sys::xiapi::XI_LENS_FEATURE_MOTORIZED_FOCUS_SWITCH,
 LENS_FEATURE_MOTORIZED_FOCUS_BOUNDED 	=	 xiapi_sys::xiapi::XI_LENS_FEATURE_MOTORIZED_FOCUS_BOUNDED,
@@ -502,9 +531,10 @@ LENS_FEATURE_IMAGE_ZOOM_SUPPORTED 	=	 xiapi_sys::xiapi::XI_LENS_FEATURE_IMAGE_ZO
 
 }
 
+#[repr(u32)]
 pub enum SensorFeatureSelector{
 SENSOR_FEATURE_ZEROROT_ENABLE 	=	 xiapi_sys::xiapi::XI_SENSOR_FEATURE_ZEROROT_ENABLE,
-
+Other, // _
 }
 
 pub enum Parameter{
@@ -669,22 +699,19 @@ SENSOR_FEATURE_VALUE, // Allows access to sensor feature value currently selecte
 macro_rules! parameter_to_string {
     ( $s:expr, $( $x:pat, $y:expr );* ) => {
         {
-            match ($s) {
+            match $s {
                 $(
                     $x =>{
                         return CString::new($y).unwrap().as_ptr();
                     }
                 )*
-                _ => {
-                    return CString::new(xiapi_sys::xiapi::XI_PRM_DEVICE_TYPE).unwrap().as_ptr();
-                }
             }
         }
     };
 }
 
-pub impl Into<*const c_char> for Parameter{
-    pub fn into(&self) -> *const c_char {
+impl Into<*const c_char> for Parameter{
+    fn into(self) -> *const c_char {
         parameter_to_string!(self,
             Parameter::DEVICE_NAME,  xiapi_sys::xiapi::XI_PRM_DEVICE_NAME;
             Parameter::DEVICE_TYPE,  xiapi_sys::xiapi::XI_PRM_DEVICE_TYPE;
