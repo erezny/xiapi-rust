@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Img` struct in crate `xiapi`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Img">
+
+    <title>xiapi::types::Img - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'><a href='../index.html'>xiapi</a>::<wbr><a href='index.html'>types</a></p><script>window.sidebarCurrent = {name: 'Img', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>xiapi</a>::<wbr><a href='index.html'>types</a>::<wbr><a class='struct' href=''>Img</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-6514' class='srclink' href='../../src/xiapi/types.rs.html#46-61' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Img {
+    pub bp: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;,
+    pub frm: <a class='enum' href='../../xiapi/constants/enum.ImgFormat.html' title='xiapi::constants::ImgFormat'>ImgFormat</a>,
+    pub width: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
+    pub height: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
+    pub nframe: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
+    pub tsSec: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
+    pub tsUSec: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
+    pub GPI_level: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
+    pub black_level: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
+    pub padding_x: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
+    pub AbsoluteOffsetX: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
+    pub AbsoluteOffsetY: <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>,
+    pub transport_frm: <a class='enum' href='../../xiapi/constants/enum.GenTLImageFormat.html' title='xiapi::constants::GenTLImageFormat'>GenTLImageFormat</a>,
+    pub img_desc: <a class='struct' href='../../xiapi/types/struct.ImgDesc.html' title='xiapi::types::ImgDesc'>ImgDesc</a>,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                                  <td id='structfield.bp'><code>bp</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.frm'><code>frm</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.width'><code>width</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.height'><code>height</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.nframe'><code>nframe</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.tsSec'><code>tsSec</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.tsUSec'><code>tsUSec</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.GPI_level'><code>GPI_level</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.black_level'><code>black_level</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.padding_x'><code>padding_x</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.AbsoluteOffsetX'><code>AbsoluteOffsetX</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.AbsoluteOffsetY'><code>AbsoluteOffsetY</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.transport_frm'><code>transport_frm</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.img_desc'><code>img_desc</code></td><td></td></tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div>
+            <div class="shortcuts">
+                <h1>Keyboard Shortcuts</h1>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h1>Search Tricks</h1>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>typedef</code> (or
+                    <code>tdef</code>).
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "xiapi";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

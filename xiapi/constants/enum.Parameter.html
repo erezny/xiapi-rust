@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Parameter` enum in crate `xiapi`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Parameter">
+
+    <title>xiapi::constants::Parameter - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'><a href='../index.html'>xiapi</a>::<wbr><a href='index.html'>constants</a></p><script>window.sidebarCurrent = {name: 'Parameter', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>xiapi</a>::<wbr><a href='index.html'>constants</a>::<wbr><a class='enum' href=''>Parameter</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-3998' class='srclink' href='../../src/xiapi/constants.rs.html#540-696' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum Parameter {
+    DeviceName,
+    DeviceType,
+    DeviceModelID,
+    DeviceSN,
+    DeviceSensorSN,
+    DeviceInstancePath,
+    DeviceUserID,
+    EXPOSURE,
+    GAIN_SELECTOR,
+    GAIN,
+    DOWNSAMPLING,
+    DOWNSAMPLING_TYPE,
+    SHUTTER_TYPE,
+    IMAGE_DATA_FORMAT,
+    IMAGE_PAYLOAD_SIZE,
+    TRANSPORT_PIXEL_FORMAT,
+    SENSOR_TAPS,
+    SENSOR_CLOCK_FREQ_HZ,
+    SENSOR_CLOCK_FREQ_INDEX,
+    SENSOR_OUTPUT_CHANNEL_COUNT,
+    SENSOR_DATA_BIT_DEPTH,
+    OUTPUT_DATA_BIT_DEPTH,
+    IMAGE_DATA_BIT_DEPTH,
+    OUTPUT_DATA_PACKING,
+    OUTPUT_DATA_PACKING_TYPE,
+    FRAMERATE,
+    COUNTER_SELECTOR,
+    COUNTER_VALUE,
+    ACQ_TIMING_MODE,
+    AVAILABLE_BANDWIDTH,
+    LIMIT_BANDWIDTH,
+    BUFFER_POLICY,
+    WIDTH,
+    HEIGHT,
+    OFFSET_X,
+    OFFSET_Y,
+    LUT_EN,
+    LUT_INDEX,
+    LUT_VALUE,
+    TRG_SOURCE,
+    TRG_SELECTOR,
+    TRG_SOFTWARE,
+    TRG_DELAY,
+    GPI_SELECTOR,
+    GPI_MODE,
+    GPI_LEVEL,
+    GPO_SELECTOR,
+    GPO_MODE,
+    LED_SELECTOR,
+    LED_MODE,
+    TS_RST_MODE,
+    TS_RST_SOURCE,
+    ACQ_FRAME_BURST_COUNT,
+    IS_DEVICE_EXIST,
+    ACQ_BUFFER_SIZE,
+    ACQ_BUFFER_SIZE_UNIT,
+    ACQ_TRANSPORT_BUFFER_SIZE,
+    BUFFERS_QUEUE_SIZE,
+    RECENT_FRAME,
+    CMS,
+    APPLY_CMS,
+    INPUT_CMS_PROFILE,
+    OUTPUT_CMS_PROFILE,
+    IMAGE_IS_COLOR,
+    COLOR_FILTER_ARRAY,
+    WB_KR,
+    WB_KG,
+    WB_KB,
+    MANUAL_WB,
+    AUTO_WB,
+    GAMMAY,
+    GAMMAC,
+    SHARPNESS,
+    CC_MATRIX_00,
+    CC_MATRIX_01,
+    CC_MATRIX_02,
+    CC_MATRIX_03,
+    CC_MATRIX_10,
+    CC_MATRIX_11,
+    CC_MATRIX_12,
+    CC_MATRIX_13,
+    CC_MATRIX_20,
+    CC_MATRIX_21,
+    CC_MATRIX_22,
+    CC_MATRIX_23,
+    CC_MATRIX_30,
+    CC_MATRIX_31,
+    CC_MATRIX_32,
+    CC_MATRIX_33,
+    DEFAULT_CC_MATRIX,
+    AEAG,
+    AEAG_ROI_OFFSET_X,
+    AEAG_ROI_OFFSET_Y,
+    AEAG_ROI_WIDTH,
+    AEAG_ROI_HEIGHT,
+    EXP_PRIORITY,
+    AE_MAX_LIMIT,
+    AG_MAX_LIMIT,
+    AEAG_LEVEL,
+    BPC,
+    DEBOUNCE_EN,
+    DEBOUNCE_T0,
+    DEBOUNCE_T1,
+    DEBOUNCE_POL,
+    IS_COOLED,
+    COOLING,
+    TARGET_TEMP,
+    CHIP_TEMP,
+    HOUS_TEMP,
+    SENSOR_MODE,
+    HDR,
+    HDR_KNEEPOINT_COUNT,
+    HDR_T1,
+    HDR_T2,
+    KNEEPOINT1,
+    KNEEPOINT2,
+    IMAGE_BLACK_LEVEL,
+    API_VERSION,
+    DRV_VERSION,
+    MCU1_VERSION,
+    MCU2_VERSION,
+    FPGA1_VERSION,
+    DEBUG_LEVEL,
+    AUTO_BANDWIDTH_CALCULATION,
+    READ_FILE_FFS,
+    WRITE_FILE_FFS,
+    FFS_FILE_NAME,
+    FREE_FFS_SIZE,
+    USED_FFS_SIZE,
+    FFS_ACCESS_KEY,
+    API_CONTEXT_LIST,
+    LENS_MODE,
+    LENS_APERTURE_VALUE,
+    LENS_FOCUS_MOVEMENT_VALUE,
+    LENS_FOCUS_MOVE,
+    LENS_FOCUS_DISTANCE,
+    LENS_FOCAL_LENGTH,
+    LENS_FEATURE_SELECTOR,
+    LENS_FEATURE,
+    SENSOR_FEATURE_SELECTOR,
+    SENSOR_FEATURE_VALUE,
+}</pre><h2 class='variants'>Variants</h2>
+<table><tr><td id='variant.DeviceName'><code>DeviceName</code></td><td></td></tr><tr><td id='variant.DeviceType'><code>DeviceType</code></td><td></td></tr><tr><td id='variant.DeviceModelID'><code>DeviceModelID</code></td><td></td></tr><tr><td id='variant.DeviceSN'><code>DeviceSN</code></td><td></td></tr><tr><td id='variant.DeviceSensorSN'><code>DeviceSensorSN</code></td><td></td></tr><tr><td id='variant.DeviceInstancePath'><code>DeviceInstancePath</code></td><td></td></tr><tr><td id='variant.DeviceUserID'><code>DeviceUserID</code></td><td></td></tr><tr><td id='variant.EXPOSURE'><code>EXPOSURE</code></td><td></td></tr><tr><td id='variant.GAIN_SELECTOR'><code>GAIN_SELECTOR</code></td><td></td></tr><tr><td id='variant.GAIN'><code>GAIN</code></td><td></td></tr><tr><td id='variant.DOWNSAMPLING'><code>DOWNSAMPLING</code></td><td></td></tr><tr><td id='variant.DOWNSAMPLING_TYPE'><code>DOWNSAMPLING_TYPE</code></td><td></td></tr><tr><td id='variant.SHUTTER_TYPE'><code>SHUTTER_TYPE</code></td><td></td></tr><tr><td id='variant.IMAGE_DATA_FORMAT'><code>IMAGE_DATA_FORMAT</code></td><td></td></tr><tr><td id='variant.IMAGE_PAYLOAD_SIZE'><code>IMAGE_PAYLOAD_SIZE</code></td><td></td></tr><tr><td id='variant.TRANSPORT_PIXEL_FORMAT'><code>TRANSPORT_PIXEL_FORMAT</code></td><td></td></tr><tr><td id='variant.SENSOR_TAPS'><code>SENSOR_TAPS</code></td><td></td></tr><tr><td id='variant.SENSOR_CLOCK_FREQ_HZ'><code>SENSOR_CLOCK_FREQ_HZ</code></td><td></td></tr><tr><td id='variant.SENSOR_CLOCK_FREQ_INDEX'><code>SENSOR_CLOCK_FREQ_INDEX</code></td><td></td></tr><tr><td id='variant.SENSOR_OUTPUT_CHANNEL_COUNT'><code>SENSOR_OUTPUT_CHANNEL_COUNT</code></td><td></td></tr><tr><td id='variant.SENSOR_DATA_BIT_DEPTH'><code>SENSOR_DATA_BIT_DEPTH</code></td><td></td></tr><tr><td id='variant.OUTPUT_DATA_BIT_DEPTH'><code>OUTPUT_DATA_BIT_DEPTH</code></td><td></td></tr><tr><td id='variant.IMAGE_DATA_BIT_DEPTH'><code>IMAGE_DATA_BIT_DEPTH</code></td><td></td></tr><tr><td id='variant.OUTPUT_DATA_PACKING'><code>OUTPUT_DATA_PACKING</code></td><td></td></tr><tr><td id='variant.OUTPUT_DATA_PACKING_TYPE'><code>OUTPUT_DATA_PACKING_TYPE</code></td><td></td></tr><tr><td id='variant.FRAMERATE'><code>FRAMERATE</code></td><td></td></tr><tr><td id='variant.COUNTER_SELECTOR'><code>COUNTER_SELECTOR</code></td><td></td></tr><tr><td id='variant.COUNTER_VALUE'><code>COUNTER_VALUE</code></td><td></td></tr><tr><td id='variant.ACQ_TIMING_MODE'><code>ACQ_TIMING_MODE</code></td><td></td></tr><tr><td id='variant.AVAILABLE_BANDWIDTH'><code>AVAILABLE_BANDWIDTH</code></td><td></td></tr><tr><td id='variant.LIMIT_BANDWIDTH'><code>LIMIT_BANDWIDTH</code></td><td></td></tr><tr><td id='variant.BUFFER_POLICY'><code>BUFFER_POLICY</code></td><td></td></tr><tr><td id='variant.WIDTH'><code>WIDTH</code></td><td></td></tr><tr><td id='variant.HEIGHT'><code>HEIGHT</code></td><td></td></tr><tr><td id='variant.OFFSET_X'><code>OFFSET_X</code></td><td></td></tr><tr><td id='variant.OFFSET_Y'><code>OFFSET_Y</code></td><td></td></tr><tr><td id='variant.LUT_EN'><code>LUT_EN</code></td><td></td></tr><tr><td id='variant.LUT_INDEX'><code>LUT_INDEX</code></td><td></td></tr><tr><td id='variant.LUT_VALUE'><code>LUT_VALUE</code></td><td></td></tr><tr><td id='variant.TRG_SOURCE'><code>TRG_SOURCE</code></td><td></td></tr><tr><td id='variant.TRG_SELECTOR'><code>TRG_SELECTOR</code></td><td></td></tr><tr><td id='variant.TRG_SOFTWARE'><code>TRG_SOFTWARE</code></td><td></td></tr><tr><td id='variant.TRG_DELAY'><code>TRG_DELAY</code></td><td></td></tr><tr><td id='variant.GPI_SELECTOR'><code>GPI_SELECTOR</code></td><td></td></tr><tr><td id='variant.GPI_MODE'><code>GPI_MODE</code></td><td></td></tr><tr><td id='variant.GPI_LEVEL'><code>GPI_LEVEL</code></td><td></td></tr><tr><td id='variant.GPO_SELECTOR'><code>GPO_SELECTOR</code></td><td></td></tr><tr><td id='variant.GPO_MODE'><code>GPO_MODE</code></td><td></td></tr><tr><td id='variant.LED_SELECTOR'><code>LED_SELECTOR</code></td><td></td></tr><tr><td id='variant.LED_MODE'><code>LED_MODE</code></td><td></td></tr><tr><td id='variant.TS_RST_MODE'><code>TS_RST_MODE</code></td><td></td></tr><tr><td id='variant.TS_RST_SOURCE'><code>TS_RST_SOURCE</code></td><td></td></tr><tr><td id='variant.ACQ_FRAME_BURST_COUNT'><code>ACQ_FRAME_BURST_COUNT</code></td><td></td></tr><tr><td id='variant.IS_DEVICE_EXIST'><code>IS_DEVICE_EXIST</code></td><td></td></tr><tr><td id='variant.ACQ_BUFFER_SIZE'><code>ACQ_BUFFER_SIZE</code></td><td></td></tr><tr><td id='variant.ACQ_BUFFER_SIZE_UNIT'><code>ACQ_BUFFER_SIZE_UNIT</code></td><td></td></tr><tr><td id='variant.ACQ_TRANSPORT_BUFFER_SIZE'><code>ACQ_TRANSPORT_BUFFER_SIZE</code></td><td></td></tr><tr><td id='variant.BUFFERS_QUEUE_SIZE'><code>BUFFERS_QUEUE_SIZE</code></td><td></td></tr><tr><td id='variant.RECENT_FRAME'><code>RECENT_FRAME</code></td><td></td></tr><tr><td id='variant.CMS'><code>CMS</code></td><td></td></tr><tr><td id='variant.APPLY_CMS'><code>APPLY_CMS</code></td><td></td></tr><tr><td id='variant.INPUT_CMS_PROFILE'><code>INPUT_CMS_PROFILE</code></td><td></td></tr><tr><td id='variant.OUTPUT_CMS_PROFILE'><code>OUTPUT_CMS_PROFILE</code></td><td></td></tr><tr><td id='variant.IMAGE_IS_COLOR'><code>IMAGE_IS_COLOR</code></td><td></td></tr><tr><td id='variant.COLOR_FILTER_ARRAY'><code>COLOR_FILTER_ARRAY</code></td><td></td></tr><tr><td id='variant.WB_KR'><code>WB_KR</code></td><td></td></tr><tr><td id='variant.WB_KG'><code>WB_KG</code></td><td></td></tr><tr><td id='variant.WB_KB'><code>WB_KB</code></td><td></td></tr><tr><td id='variant.MANUAL_WB'><code>MANUAL_WB</code></td><td></td></tr><tr><td id='variant.AUTO_WB'><code>AUTO_WB</code></td><td></td></tr><tr><td id='variant.GAMMAY'><code>GAMMAY</code></td><td></td></tr><tr><td id='variant.GAMMAC'><code>GAMMAC</code></td><td></td></tr><tr><td id='variant.SHARPNESS'><code>SHARPNESS</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_00'><code>CC_MATRIX_00</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_01'><code>CC_MATRIX_01</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_02'><code>CC_MATRIX_02</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_03'><code>CC_MATRIX_03</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_10'><code>CC_MATRIX_10</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_11'><code>CC_MATRIX_11</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_12'><code>CC_MATRIX_12</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_13'><code>CC_MATRIX_13</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_20'><code>CC_MATRIX_20</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_21'><code>CC_MATRIX_21</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_22'><code>CC_MATRIX_22</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_23'><code>CC_MATRIX_23</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_30'><code>CC_MATRIX_30</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_31'><code>CC_MATRIX_31</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_32'><code>CC_MATRIX_32</code></td><td></td></tr><tr><td id='variant.CC_MATRIX_33'><code>CC_MATRIX_33</code></td><td></td></tr><tr><td id='variant.DEFAULT_CC_MATRIX'><code>DEFAULT_CC_MATRIX</code></td><td></td></tr><tr><td id='variant.AEAG'><code>AEAG</code></td><td></td></tr><tr><td id='variant.AEAG_ROI_OFFSET_X'><code>AEAG_ROI_OFFSET_X</code></td><td></td></tr><tr><td id='variant.AEAG_ROI_OFFSET_Y'><code>AEAG_ROI_OFFSET_Y</code></td><td></td></tr><tr><td id='variant.AEAG_ROI_WIDTH'><code>AEAG_ROI_WIDTH</code></td><td></td></tr><tr><td id='variant.AEAG_ROI_HEIGHT'><code>AEAG_ROI_HEIGHT</code></td><td></td></tr><tr><td id='variant.EXP_PRIORITY'><code>EXP_PRIORITY</code></td><td></td></tr><tr><td id='variant.AE_MAX_LIMIT'><code>AE_MAX_LIMIT</code></td><td></td></tr><tr><td id='variant.AG_MAX_LIMIT'><code>AG_MAX_LIMIT</code></td><td></td></tr><tr><td id='variant.AEAG_LEVEL'><code>AEAG_LEVEL</code></td><td></td></tr><tr><td id='variant.BPC'><code>BPC</code></td><td></td></tr><tr><td id='variant.DEBOUNCE_EN'><code>DEBOUNCE_EN</code></td><td></td></tr><tr><td id='variant.DEBOUNCE_T0'><code>DEBOUNCE_T0</code></td><td></td></tr><tr><td id='variant.DEBOUNCE_T1'><code>DEBOUNCE_T1</code></td><td></td></tr><tr><td id='variant.DEBOUNCE_POL'><code>DEBOUNCE_POL</code></td><td></td></tr><tr><td id='variant.IS_COOLED'><code>IS_COOLED</code></td><td></td></tr><tr><td id='variant.COOLING'><code>COOLING</code></td><td></td></tr><tr><td id='variant.TARGET_TEMP'><code>TARGET_TEMP</code></td><td></td></tr><tr><td id='variant.CHIP_TEMP'><code>CHIP_TEMP</code></td><td></td></tr><tr><td id='variant.HOUS_TEMP'><code>HOUS_TEMP</code></td><td></td></tr><tr><td id='variant.SENSOR_MODE'><code>SENSOR_MODE</code></td><td></td></tr><tr><td id='variant.HDR'><code>HDR</code></td><td></td></tr><tr><td id='variant.HDR_KNEEPOINT_COUNT'><code>HDR_KNEEPOINT_COUNT</code></td><td></td></tr><tr><td id='variant.HDR_T1'><code>HDR_T1</code></td><td></td></tr><tr><td id='variant.HDR_T2'><code>HDR_T2</code></td><td></td></tr><tr><td id='variant.KNEEPOINT1'><code>KNEEPOINT1</code></td><td></td></tr><tr><td id='variant.KNEEPOINT2'><code>KNEEPOINT2</code></td><td></td></tr><tr><td id='variant.IMAGE_BLACK_LEVEL'><code>IMAGE_BLACK_LEVEL</code></td><td></td></tr><tr><td id='variant.API_VERSION'><code>API_VERSION</code></td><td></td></tr><tr><td id='variant.DRV_VERSION'><code>DRV_VERSION</code></td><td></td></tr><tr><td id='variant.MCU1_VERSION'><code>MCU1_VERSION</code></td><td></td></tr><tr><td id='variant.MCU2_VERSION'><code>MCU2_VERSION</code></td><td></td></tr><tr><td id='variant.FPGA1_VERSION'><code>FPGA1_VERSION</code></td><td></td></tr><tr><td id='variant.DEBUG_LEVEL'><code>DEBUG_LEVEL</code></td><td></td></tr><tr><td id='variant.AUTO_BANDWIDTH_CALCULATION'><code>AUTO_BANDWIDTH_CALCULATION</code></td><td></td></tr><tr><td id='variant.READ_FILE_FFS'><code>READ_FILE_FFS</code></td><td></td></tr><tr><td id='variant.WRITE_FILE_FFS'><code>WRITE_FILE_FFS</code></td><td></td></tr><tr><td id='variant.FFS_FILE_NAME'><code>FFS_FILE_NAME</code></td><td></td></tr><tr><td id='variant.FREE_FFS_SIZE'><code>FREE_FFS_SIZE</code></td><td></td></tr><tr><td id='variant.USED_FFS_SIZE'><code>USED_FFS_SIZE</code></td><td></td></tr><tr><td id='variant.FFS_ACCESS_KEY'><code>FFS_ACCESS_KEY</code></td><td></td></tr><tr><td id='variant.API_CONTEXT_LIST'><code>API_CONTEXT_LIST</code></td><td></td></tr><tr><td id='variant.LENS_MODE'><code>LENS_MODE</code></td><td></td></tr><tr><td id='variant.LENS_APERTURE_VALUE'><code>LENS_APERTURE_VALUE</code></td><td></td></tr><tr><td id='variant.LENS_FOCUS_MOVEMENT_VALUE'><code>LENS_FOCUS_MOVEMENT_VALUE</code></td><td></td></tr><tr><td id='variant.LENS_FOCUS_MOVE'><code>LENS_FOCUS_MOVE</code></td><td></td></tr><tr><td id='variant.LENS_FOCUS_DISTANCE'><code>LENS_FOCUS_DISTANCE</code></td><td></td></tr><tr><td id='variant.LENS_FOCAL_LENGTH'><code>LENS_FOCAL_LENGTH</code></td><td></td></tr><tr><td id='variant.LENS_FEATURE_SELECTOR'><code>LENS_FEATURE_SELECTOR</code></td><td></td></tr><tr><td id='variant.LENS_FEATURE'><code>LENS_FEATURE</code></td><td></td></tr><tr><td id='variant.SENSOR_FEATURE_SELECTOR'><code>SENSOR_FEATURE_SELECTOR</code></td><td></td></tr><tr><td id='variant.SENSOR_FEATURE_VALUE'><code>SENSOR_FEATURE_VALUE</code></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/convert/trait.Into.html' title='core::convert::Into'>Into</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const <a class='type' href='../../libc/types/os/arch/c95/type.c_char.html' title='libc::types::os::arch::c95::c_char'>c_char</a></a>&gt; for <a class='enum' href='../../xiapi/constants/enum.Parameter.html' title='xiapi::constants::Parameter'>Parameter</a></code></h3><div class='impl-items'><h4 id='method.into' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/convert/trait.Into.html#method.into' class='fnname'>into</a>(self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const <a class='type' href='../../libc/types/os/arch/c95/type.c_char.html' title='libc::types::os::arch::c95::c_char'>c_char</a></a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div>
+            <div class="shortcuts">
+                <h1>Keyboard Shortcuts</h1>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h1>Search Tricks</h1>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>typedef</code> (or
+                    <code>tdef</code>).
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "xiapi";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

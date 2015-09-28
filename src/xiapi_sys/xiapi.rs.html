@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="Source to the Rust file `/Users/e-man/.cargo/git/checkouts/xiapi_sys-rust-85ddbd0279577be3/master/src/xiapi.rs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang">
+
+    <title>xiapi.rs.html -- source</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+<span id="2">  2</span>
+<span id="3">  3</span>
+<span id="4">  4</span>
+<span id="5">  5</span>
+<span id="6">  6</span>
+<span id="7">  7</span>
+<span id="8">  8</span>
+<span id="9">  9</span>
+<span id="10"> 10</span>
+<span id="11"> 11</span>
+<span id="12"> 12</span>
+<span id="13"> 13</span>
+<span id="14"> 14</span>
+<span id="15"> 15</span>
+<span id="16"> 16</span>
+<span id="17"> 17</span>
+<span id="18"> 18</span>
+<span id="19"> 19</span>
+<span id="20"> 20</span>
+<span id="21"> 21</span>
+<span id="22"> 22</span>
+<span id="23"> 23</span>
+<span id="24"> 24</span>
+<span id="25"> 25</span>
+<span id="26"> 26</span>
+<span id="27"> 27</span>
+<span id="28"> 28</span>
+<span id="29"> 29</span>
+<span id="30"> 30</span>
+<span id="31"> 31</span>
+<span id="32"> 32</span>
+<span id="33"> 33</span>
+<span id="34"> 34</span>
+<span id="35"> 35</span>
+<span id="36"> 36</span>
+<span id="37"> 37</span>
+<span id="38"> 38</span>
+<span id="39"> 39</span>
+<span id="40"> 40</span>
+<span id="41"> 41</span>
+<span id="42"> 42</span>
+<span id="43"> 43</span>
+<span id="44"> 44</span>
+<span id="45"> 45</span>
+<span id="46"> 46</span>
+<span id="47"> 47</span>
+<span id="48"> 48</span>
+<span id="49"> 49</span>
+<span id="50"> 50</span>
+<span id="51"> 51</span>
+<span id="52"> 52</span>
+<span id="53"> 53</span>
+<span id="54"> 54</span>
+<span id="55"> 55</span>
+<span id="56"> 56</span>
+<span id="57"> 57</span>
+<span id="58"> 58</span>
+<span id="59"> 59</span>
+<span id="60"> 60</span>
+<span id="61"> 61</span>
+<span id="62"> 62</span>
+<span id="63"> 63</span>
+<span id="64"> 64</span>
+<span id="65"> 65</span>
+<span id="66"> 66</span>
+<span id="67"> 67</span>
+<span id="68"> 68</span>
+<span id="69"> 69</span>
+<span id="70"> 70</span>
+<span id="71"> 71</span>
+<span id="72"> 72</span>
+<span id="73"> 73</span>
+<span id="74"> 74</span>
+<span id="75"> 75</span>
+<span id="76"> 76</span>
+<span id="77"> 77</span>
+<span id="78"> 78</span>
+<span id="79"> 79</span>
+<span id="80"> 80</span>
+<span id="81"> 81</span>
+<span id="82"> 82</span>
+<span id="83"> 83</span>
+<span id="84"> 84</span>
+<span id="85"> 85</span>
+<span id="86"> 86</span>
+<span id="87"> 87</span>
+<span id="88"> 88</span>
+<span id="89"> 89</span>
+<span id="90"> 90</span>
+<span id="91"> 91</span>
+<span id="92"> 92</span>
+<span id="93"> 93</span>
+<span id="94"> 94</span>
+<span id="95"> 95</span>
+<span id="96"> 96</span>
+<span id="97"> 97</span>
+<span id="98"> 98</span>
+<span id="99"> 99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+</pre><pre class='rust '>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>allow</span>(<span class='ident'>non_camel_case_types</span>, <span class='ident'>non_snake_case</span>, <span class='ident'>non_upper_case_globals</span>)]</span>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
+
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>uint8_t</span> <span class='op'>=</span> <span class='ident'>u8</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>uint16_t</span> <span class='op'>=</span> <span class='ident'>u16</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>uint32_t</span> <span class='op'>=</span> <span class='ident'>u32</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>uint64_t</span> <span class='op'>=</span> <span class='ident'>u64</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>int8_t</span> <span class='op'>=</span> <span class='ident'>i8</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>int16_t</span> <span class='op'>=</span> <span class='ident'>i16</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>int32_t</span> <span class='op'>=</span> <span class='ident'>i32</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>int64_t</span> <span class='op'>=</span> <span class='ident'>i64</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>size_t</span> <span class='op'>=</span> <span class='ident'>usize</span>; <span class='comment'>//unsure</span>
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>wchar_t</span> <span class='op'>=</span> <span class='ident'>libc</span>::<span class='ident'>c_char</span>;
+
+<span class='comment'>// xiApi parameters</span>
+
+<span class='comment'>// Device info parameters</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DEVICE_NAME</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;device_name&quot;</span>;             <span class='comment'>// Return device name</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DEVICE_TYPE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;device_type&quot;</span>;             <span class='comment'>// Return device type</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DEVICE_MODEL_ID</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;device_model_id&quot;</span>;         <span class='comment'>// Return device model id</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DEVICE_SN</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;device_sn&quot;</span>;               <span class='comment'>// Return device serial number</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DEVICE_SENS_SN</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;device_sens_sn&quot;</span>;          <span class='comment'>// Return sensor serial number</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DEVICE_INSTANCE_PATH</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;device_inst_path&quot;</span>;        <span class='comment'>// Return device system instance path.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DEVICE_USER_ID</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;device_user_id&quot;</span>;          <span class='comment'>// Return custom ID of camera.</span>
+<span class='comment'>// Device acquisition settings</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_EXPOSURE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;exposure&quot;</span>;                <span class='comment'>// Exposure time in microseconds</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_GAIN_SELECTOR</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;gain_selector&quot;</span>;           <span class='comment'>// Gain selector for parameter Gain allows to select different type of gains. XI_GAIN_SELECTOR_TYPE</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_GAIN</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;gain&quot;</span>;                    <span class='comment'>// Gain in dB</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DOWNSAMPLING</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;downsampling&quot;</span>;            <span class='comment'>// Change image resolution by binning or skipping.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DOWNSAMPLING_TYPE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;downsampling_type&quot;</span>;       <span class='comment'>// Change image downsampling type. XI_DOWNSAMPLING_TYPE</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_SHUTTER_TYPE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;shutter_type&quot;</span>;            <span class='comment'>// Change sensor shutter type(CMOS sensor). XI_SHUTTER_TYPE</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_IMAGE_DATA_FORMAT</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;imgdataformat&quot;</span>;           <span class='comment'>// Output data format. XI_IMG_FORMAT</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_IMAGE_PAYLOAD_SIZE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;imgpayloadsize&quot;</span>;          <span class='comment'>// Buffer size in bytes sufficient for output image returned by xiGetImage</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_TRANSPORT_PIXEL_FORMAT</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;transport_pixel_format&quot;</span>;  <span class='comment'>// Current format of pixels on transport layer. XI_GenTL_Image_Format_e</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_SENSOR_TAPS</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;sensor_taps&quot;</span>;             <span class='comment'>// Number of taps</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_SENSOR_CLOCK_FREQ_HZ</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;sensor_clock_freq_hz&quot;</span>;    <span class='comment'>// Sensor clock frequency in Hz.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_SENSOR_CLOCK_FREQ_INDEX</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;sensor_clock_freq_index&quot;</span>; <span class='comment'>// Sensor clock frequency index. Sensor with selected frequencies have possibility to set the frequency only by this index.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_SENSOR_OUTPUT_CHANNEL_COUNT</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;sensor_output_channel_count&quot;</span>;<span class='comment'>// Number of output channels from sensor used for data transfer.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_SENSOR_DATA_BIT_DEPTH</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;sensor_bit_depth&quot;</span>;        <span class='comment'>// Sensor output data bit depth.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_OUTPUT_DATA_BIT_DEPTH</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;output_bit_depth&quot;</span>;        <span class='comment'>// Device output data bit depth.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_IMAGE_DATA_BIT_DEPTH</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;image_data_bit_depth&quot;</span>;    <span class='comment'>// bitdepth of data returned by function xiGetImage</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_OUTPUT_DATA_PACKING</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;output_bit_packing&quot;</span>;      <span class='comment'>// Device output data packing (or grouping) enabled. Packing could be enabled if output_data_bit_depth &gt; 8 and packing capability is available. XI_SWITCH</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_OUTPUT_DATA_PACKING_TYPE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;output_bit_packing_type&quot;</span>; <span class='comment'>// . XI_OUTPUT_DATA_PACKING_TYPE</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_FRAMERATE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;framerate&quot;</span>;               <span class='comment'>// Define framerate in Hz</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_COUNTER_SELECTOR</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;counter_selector&quot;</span>;        <span class='comment'>// Select counter XI_COUNTER_SELECTOR</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_COUNTER_VALUE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;counter_value&quot;</span>;           <span class='comment'>// Counter status</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_ACQ_TIMING_MODE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;acq_timing_mode&quot;</span>;         <span class='comment'>// Type of sensor frames timing. XI_ACQ_TIMING_MODE</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_AVAILABLE_BANDWIDTH</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;available_bandwidth&quot;</span>;     <span class='comment'>// Calculate and return available interface bandwidth(int Megabits)</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LIMIT_BANDWIDTH</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;limit_bandwidth&quot;</span>;         <span class='comment'>// Set/get bandwidth(datarate)(in Megabits)</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_BUFFER_POLICY</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;buffer_policy&quot;</span>;           <span class='comment'>// Data move policy XI_BP</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_WIDTH</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;width&quot;</span>;                   <span class='comment'>// Width of the Image provided by the device (in pixels).</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_HEIGHT</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;height&quot;</span>;                  <span class='comment'>// Height of the Image provided by the device (in pixels).</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_OFFSET_X</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;offsetX&quot;</span>;                 <span class='comment'>// Horizontal offset from the origin to the area of interest (in pixels).</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_OFFSET_Y</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;offsetY&quot;</span>;                 <span class='comment'>// Vertical offset from the origin to the area of interest (in pixels).</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LUT_EN</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;LUTEnable&quot;</span>;               <span class='comment'>// Activates LUT. XI_SWITCH</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LUT_INDEX</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;LUTIndex&quot;</span>;                <span class='comment'>// Control the index (offset) of the coefficient to access in the LUT.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LUT_VALUE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;LUTValue&quot;</span>;                <span class='comment'>// Value at entry LUTIndex of the LUT</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_TRG_SOURCE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;trigger_source&quot;</span>;          <span class='comment'>// Defines source of trigger. XI_TRG_SOURCE</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_TRG_SELECTOR</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;trigger_selector&quot;</span>;        <span class='comment'>// Selects the type of trigger. XI_TRG_SELECTOR</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_TRG_SOFTWARE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;trigger_software&quot;</span>;        <span class='comment'>// Generates an internal trigger. XI_PRM_TRG_SOURCE must be set to TRG_SOFTWARE.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_TRG_DELAY</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;trigger_delay&quot;</span>;           <span class='comment'>// Specifies the delay in microseconds (us) to apply after the trigger reception before activating it.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_GPI_SELECTOR</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;gpi_selector&quot;</span>;            <span class='comment'>// Selects GPI</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_GPI_MODE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;gpi_mode&quot;</span>;                <span class='comment'>// Defines GPI functionality XI_GPI_MODE</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_GPI_LEVEL</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;gpi_level&quot;</span>;               <span class='comment'>// GPI level</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_GPO_SELECTOR</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;gpo_selector&quot;</span>;            <span class='comment'>// Selects GPO</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_GPO_MODE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;gpo_mode&quot;</span>;                <span class='comment'>// Defines GPO functionality XI_GPO_MODE</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LED_SELECTOR</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;led_selector&quot;</span>;            <span class='comment'>// Selects LED</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LED_MODE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;led_mode&quot;</span>;                <span class='comment'>// Defines LED functionality XI_LED_MODE</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_TS_RST_MODE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ts_rst_mode&quot;</span>;             <span class='comment'>// Defines how time stamp reset engine will be armed XI_TS_RST_MODE</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_TS_RST_SOURCE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ts_rst_source&quot;</span>;           <span class='comment'>// Defines which source will be used for timestamp reset. Writing this parameter will trigger settings of engine (arming) XI_TS_RST_SOURCE</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_ACQ_FRAME_BURST_COUNT</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;acq_frame_burst_count&quot;</span>;   <span class='comment'>// Sets number of frames acquired by burst. This burst is used only if trigger is set to FrameBurstStart</span>
+<span class='comment'>// Extended Device parameters</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_IS_DEVICE_EXIST</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;isexist&quot;</span>;                 <span class='comment'>// Returns 1 if camera connected and works properly. XI_SWITCH</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_ACQ_BUFFER_SIZE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;acq_buffer_size&quot;</span>;         <span class='comment'>// Acquisition buffer size in buffer_size_unit. Default bytes.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_ACQ_BUFFER_SIZE_UNIT</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;acq_buffer_size_unit&quot;</span>;    <span class='comment'>// Acquisition buffer size unit in bytes. Default 1. E.g. Value 1024 means that buffer_size is in KiBytes</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_ACQ_TRANSPORT_BUFFER_SIZE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;acq_transport_buffer_size&quot;</span>;<span class='comment'>// Acquisition transport buffer size in bytes</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_BUFFERS_QUEUE_SIZE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;buffers_queue_size&quot;</span>;      <span class='comment'>// Queue of field/frame buffers</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_RECENT_FRAME</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;recent_frame&quot;</span>;            <span class='comment'>// GetImage returns most recent frame XI_SWITCH</span>
+<span class='comment'>// Color management settings</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CMS</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;cms&quot;</span>;                     <span class='comment'>// Mode of color management system. XI_CMS_MODE</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_APPLY_CMS</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;apply_cms&quot;</span>;               <span class='comment'>// Enable applying of CMS profiles to xiGetImage (see XI_PRM_INPUT_CMS_PROFILE, XI_PRM_OUTPUT_CMS_PROFILE). XI_SWITCH</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_INPUT_CMS_PROFILE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;input_cms_profile&quot;</span>;       <span class='comment'>// Filename for input cms profile (e.g. input.icc)</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_OUTPUT_CMS_PROFILE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;output_cms_profile&quot;</span>;      <span class='comment'>// Filename for output cms profile (e.g. input.icc)</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_IMAGE_IS_COLOR</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;iscolor&quot;</span>;                 <span class='comment'>// Returns 1 for color cameras. XI_SWITCH</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_COLOR_FILTER_ARRAY</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;cfa&quot;</span>;                     <span class='comment'>// Returns color filter array type of RAW data. XI_COLOR_FILTER_ARRAY</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_WB_KR</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;wb_kr&quot;</span>;                   <span class='comment'>// White balance red coefficient</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_WB_KG</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;wb_kg&quot;</span>;                   <span class='comment'>// White balance green coefficient</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_WB_KB</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;wb_kb&quot;</span>;                   <span class='comment'>// White balance blue coefficient</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_MANUAL_WB</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;manual_wb&quot;</span>;               <span class='comment'>// Calculates White Balance(xiGetImage function must be called) XI_SWITCH</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_AUTO_WB</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;auto_wb&quot;</span>;                 <span class='comment'>// Automatic white balance XI_SWITCH</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_GAMMAY</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;gammaY&quot;</span>;                  <span class='comment'>// Luminosity gamma</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_GAMMAC</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;gammaC&quot;</span>;                  <span class='comment'>// Chromaticity gamma</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_SHARPNESS</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;sharpness&quot;</span>;               <span class='comment'>// Sharpness Strenght</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_00</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX00&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [0][0]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_01</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX01&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [0][1]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_02</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX02&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [0][2]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_03</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX03&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [0][3]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_10</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX10&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [1][0]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_11</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX11&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [1][1]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_12</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX12&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [1][2]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_13</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX13&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [1][3]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_20</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX20&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [2][0]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_21</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX21&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [2][1]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_22</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX22&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [2][2]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_23</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX23&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [2][3]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_30</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX30&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [3][0]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_31</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX31&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [3][1]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_32</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX32&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [3][2]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CC_MATRIX_33</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ccMTX33&quot;</span>;                 <span class='comment'>// Color Correction Matrix element [3][3]</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DEFAULT_CC_MATRIX</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;defccMTX&quot;</span>;                <span class='comment'>// Set default Color Correction Matrix</span>
+<span class='comment'>// Automatic exposure/gain</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_AEAG</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;aeag&quot;</span>;                    <span class='comment'>// Automatic exposure/gain XI_SWITCH</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_AEAG_ROI_OFFSET_X</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;aeag_roi_offset_x&quot;</span>;       <span class='comment'>// Automatic exposure/gain ROI offset X</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_AEAG_ROI_OFFSET_Y</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;aeag_roi_offset_y&quot;</span>;       <span class='comment'>// Automatic exposure/gain ROI offset Y</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_AEAG_ROI_WIDTH</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;aeag_roi_width&quot;</span>;          <span class='comment'>// Automatic exposure/gain ROI Width</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_AEAG_ROI_HEIGHT</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;aeag_roi_height&quot;</span>;         <span class='comment'>// Automatic exposure/gain ROI Height</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_EXP_PRIORITY</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;exp_priority&quot;</span>;            <span class='comment'>// Exposure priority (0.8 - exposure 80%, gain 20%).</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_AE_MAX_LIMIT</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ae_max_limit&quot;</span>;            <span class='comment'>// Maximum time (us) used for exposure in AEAG procedure</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_AG_MAX_LIMIT</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ag_max_limit&quot;</span>;            <span class='comment'>// Maximum limit of gain in AEAG procedure</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_AEAG_LEVEL</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;aeag_level&quot;</span>;              <span class='comment'>// Average intensity of output signal AEAG should achieve(in %)</span>
+<span class='comment'>// Bad Pixels Correction</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_BPC</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;bpc&quot;</span>;                     <span class='comment'>// Correction of bad pixels XI_SWITCH</span>
+<span class='comment'>// Debounce</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DEBOUNCE_EN</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;dbnc_en&quot;</span>;                 <span class='comment'>// Enable/Disable debounce to selected GPI XI_SWITCH</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DEBOUNCE_T0</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;dbnc_t0&quot;</span>;                 <span class='comment'>// Debounce time (x * 10us)</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DEBOUNCE_T1</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;dbnc_t1&quot;</span>;                 <span class='comment'>// Debounce time (x * 10us)</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DEBOUNCE_POL</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;dbnc_pol&quot;</span>;                <span class='comment'>// Debounce polarity (pol = 1 t0 - falling edge, t1 - rising edge)</span>
+<span class='comment'>// Temperature control</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_IS_COOLED</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;iscooled&quot;</span>;                <span class='comment'>// Returns 1 for cameras that support cooling.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_COOLING</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;cooling&quot;</span>;                 <span class='comment'>// Start camera cooling. XI_SWITCH</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_TARGET_TEMP</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;target_temp&quot;</span>;             <span class='comment'>// Set sensor target temperature for cooling.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_CHIP_TEMP</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;chip_temp&quot;</span>;               <span class='comment'>// Camera sensor temperature</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_HOUS_TEMP</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;hous_temp&quot;</span>;               <span class='comment'>// Camera housing tepmerature</span>
+<span class='comment'>// Sensor features</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_SENSOR_MODE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;sensor_mode&quot;</span>;             <span class='comment'>// Current sensor mode. Allows to select sensor mode by one integer. Setting of this parameter affects: image dimensions and downsampling.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_HDR</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;hdr&quot;</span>;                     <span class='comment'>// Enable High Dynamic Range feature. XI_SWITCH</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_HDR_KNEEPOINT_COUNT</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;hdr_kneepoint_count&quot;</span>;     <span class='comment'>// The number of kneepoints in the PWLR.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_HDR_T1</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;hdr_t1&quot;</span>;                  <span class='comment'>// position of first kneepoint(in % of XI_PRM_EXPOSURE)</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_HDR_T2</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;hdr_t2&quot;</span>;                  <span class='comment'>// position of second kneepoint (in % of XI_PRM_EXPOSURE)</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_KNEEPOINT1</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;hdr_kneepoint1&quot;</span>;          <span class='comment'>// value of first kneepoint (% of sensor saturation)</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_KNEEPOINT2</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;hdr_kneepoint2&quot;</span>;          <span class='comment'>// value of second kneepoint (% of sensor saturation)</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_IMAGE_BLACK_LEVEL</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;image_black_level&quot;</span>;       <span class='comment'>// Last image black level counts. Can be used for Offline processing to recall it.</span>
+<span class='comment'>// Version info</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_API_VERSION</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;api_version&quot;</span>;             <span class='comment'>// Returns version of API.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DRV_VERSION</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;drv_version&quot;</span>;             <span class='comment'>// Returns version of current device driver.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_MCU1_VERSION</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;version_mcu1&quot;</span>;            <span class='comment'>// Returns version of MCU1 firmware.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_MCU2_VERSION</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;version_mcu2&quot;</span>;            <span class='comment'>// Returns version of MCU2 firmware.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_FPGA1_VERSION</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;version_fpga1&quot;</span>;           <span class='comment'>// Returns version of FPGA1 firmware.</span>
+<span class='comment'>// API features</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_DEBUG_LEVEL</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;debug_level&quot;</span>;             <span class='comment'>// Set debug level XI_DEBUG_LEVEL</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_AUTO_BANDWIDTH_CALCULATION</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;auto_bandwidth_calculation&quot;</span>;<span class='comment'>// Automatic bandwidth calculation, XI_SWITCH</span>
+<span class='comment'>// Camera FFS</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_READ_FILE_FFS</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;read_file_ffs&quot;</span>;           <span class='comment'>// Read file from camera flash filesystem.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_WRITE_FILE_FFS</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;write_file_ffs&quot;</span>;          <span class='comment'>// Write file to camera flash filesystem.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_FFS_FILE_NAME</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ffs_file_name&quot;</span>;           <span class='comment'>// Set name of file to be written/read from camera FFS.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_FREE_FFS_SIZE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;free_ffs_size&quot;</span>;           <span class='comment'>// Size of free camera FFS.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_USED_FFS_SIZE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;used_ffs_size&quot;</span>;           <span class='comment'>// Size of used camera FFS.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_FFS_ACCESS_KEY</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;ffs_access_key&quot;</span>;          <span class='comment'>// Setting of key enables file operations on some cameras.</span>
+<span class='comment'>// APIContextControl</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_API_CONTEXT_LIST</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;xiapi_context_list&quot;</span>;      <span class='comment'>// List of current parameters settings context - parameters with values. Used for offline processing.</span>
+<span class='comment'>// Lens Control</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LENS_MODE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;lens_mode&quot;</span>;               <span class='comment'>// Status of lens control interface. This shall be set to XI_ON before any Lens operations. XI_SWITCH</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LENS_APERTURE_VALUE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;lens_aperture_value&quot;</span>;     <span class='comment'>// Current lens aperture value in stops. Examples: 2.8, 4, 5.6, 8, 11</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LENS_FOCUS_MOVEMENT_VALUE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;lens_focus_movement_value&quot;</span>;<span class='comment'>// Lens current focus movement value to be used by XI_PRM_LENS_FOCUS_MOVE in motor steps.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LENS_FOCUS_MOVE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;lens_focus_move&quot;</span>;         <span class='comment'>// Moves lens focus motor by steps set in XI_PRM_LENS_FOCUS_MOVEMENT_VALUE.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LENS_FOCUS_DISTANCE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;lens_focus_distance&quot;</span>;     <span class='comment'>// Lens focus distance in cm.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LENS_FOCAL_LENGTH</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;lens_focal_length&quot;</span>;       <span class='comment'>// Lens focal distance in mm.</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LENS_FEATURE_SELECTOR</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;lens_feature_selector&quot;</span>;   <span class='comment'>// Selects the current feature which is accessible by XI_PRM_LENS_FEATURE. XI_LENS_FEATURE</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_LENS_FEATURE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;lens_feature&quot;</span>;            <span class='comment'>// Allows access to lens feature value currently selected by XI_PRM_LENS_FEATURE_SELECTOR.</span>
+<span class='comment'>// Sensor Control</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_SENSOR_FEATURE_SELECTOR</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;sensor_feature_selector&quot;</span>; <span class='comment'>// Selects the current feature which is accessible by XI_PRM_SENSOR_FEATURE_VALUE. XI_SENSOR_FEATURE_SELECTOR</span>
+<span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>XI_PRM_SENSOR_FEATURE_VALUE</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;sensor_feature_value&quot;</span>;    <span class='comment'>// Allows access to sensor feature value currently selected by XI_PRM_SENSOR_FEATURE_SELECTOR.</span>
+
+
+<span class='macro'>include</span><span class='macro'>!</span>(<span class='macro'>concat</span><span class='macro'>!</span>(<span class='macro'>env</span><span class='macro'>!</span>(<span class='string'>&quot;OUT_DIR&quot;</span>), <span class='string'>&quot;/lib/xiapi.rs&quot;</span>));
+</pre>
+</section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div>
+            <div class="shortcuts">
+                <h1>Keyboard Shortcuts</h1>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h1>Search Tricks</h1>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>typedef</code> (or
+                    <code>tdef</code>).
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "xiapi_sys";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>
