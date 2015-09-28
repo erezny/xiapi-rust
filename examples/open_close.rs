@@ -1,4 +1,5 @@
 extern crate xiapi;
+use xiapi::constants::Parameter;
 
 fn run() -> Result<(),String> {
 
@@ -15,7 +16,46 @@ fn run() -> Result<(),String> {
     //         return Err(String::from("no devices listed"));
     //     }
 
-    let device_index = 0;
+
+    for i in 0..num_devices {
+    // DeviceName, // Return device name
+    // DeviceType, // Return device type
+    // DeviceSN, // Return device serial number
+    // DeviceInstancePath, // Return device system instance path.
+        match xiapi::get_device_info_string(i, Parameter::DeviceName){
+            Some(device_string) => {
+                println!("Device: {},\t Name: {}", i, device_string);
+            },
+            None => {
+                println!("Device: {}, \t No Name", i );
+            }
+        }
+        match xiapi::get_device_info_string(i, Parameter::DeviceType){
+            Some(device_string) => {
+                println!("Device: {},\t Type: {}", i, device_string);
+            },
+            None => {
+                println!("Device: {}, \t No Type", i );
+            }
+        }
+        match xiapi::get_device_info_string(i, Parameter::DeviceSN){
+            Some(device_string) => {
+                println!("Device: {},\t SN: {}", i, device_string);
+            },
+            None => {
+                println!("Device: {}, \t No SN", i );
+            }
+        }
+        match xiapi::get_device_info_string(i, Parameter::DeviceInstancePath){
+            Some(device_string) => {
+                println!("Device: {},\t Instance Path: {}", i, device_string);
+            },
+            None => {
+                println!("Device: {}, \t No Instance Path", i );
+            }
+        }
+
+    }
 
     //let mut vid = xiapi::start_capture(device_index);
 

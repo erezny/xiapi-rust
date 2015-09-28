@@ -538,13 +538,13 @@ Other, // _
 }
 
 pub enum Parameter{
-DEVICE_NAME, // Return device name
-DEVICE_TYPE, // Return device type
-DEVICE_MODEL_ID, // Return device model id
-DEVICE_SN, // Return device serial number
-DEVICE_SENS_SN, // Return sensor serial number
-DEVICE_INSTANCE_PATH, // Return device system instance path.
-DEVICE_USER_ID, // Return custom ID of camera.
+DeviceName, // Return device name
+DeviceType, // Return device type
+DeviceModelID, // Return device model id
+DeviceSN, // Return device serial number
+DeviceSensorSN, // Return sensor serial number
+DeviceInstancePath, // Return device system instance path.
+DeviceUserID, // Return custom ID of camera.
 // Device acquisition settings
 EXPOSURE, // Exposure time in microseconds
 GAIN_SELECTOR, // Gain selector for parameter Gain allows to select different type of gains. XI_GAIN_SELECTOR_TYPE
@@ -713,13 +713,13 @@ macro_rules! parameter_to_string {
 impl Into<*const c_char> for Parameter{
     fn into(self) -> *const c_char {
         parameter_to_string!(self,
-            Parameter::DEVICE_NAME,  xiapi_sys::xiapi::XI_PRM_DEVICE_NAME;
-            Parameter::DEVICE_TYPE,  xiapi_sys::xiapi::XI_PRM_DEVICE_TYPE;
-            Parameter::DEVICE_MODEL_ID,  xiapi_sys::xiapi::XI_PRM_DEVICE_MODEL_ID;
-            Parameter::DEVICE_SN,  xiapi_sys::xiapi::XI_PRM_DEVICE_SN;
-            Parameter::DEVICE_SENS_SN,  xiapi_sys::xiapi::XI_PRM_DEVICE_SENS_SN;
-            Parameter::DEVICE_INSTANCE_PATH,  xiapi_sys::xiapi::XI_PRM_DEVICE_INSTANCE_PATH;
-            Parameter::DEVICE_USER_ID,  xiapi_sys::xiapi::XI_PRM_DEVICE_USER_ID;
+            Parameter::DeviceName,  xiapi_sys::xiapi::XI_PRM_DEVICE_NAME;
+            Parameter::DeviceType,  xiapi_sys::xiapi::XI_PRM_DEVICE_TYPE;
+            Parameter::DeviceModelID,  xiapi_sys::xiapi::XI_PRM_DEVICE_MODEL_ID;
+            Parameter::DeviceSN,  xiapi_sys::xiapi::XI_PRM_DEVICE_SN;
+            Parameter::DeviceSensorSN,  xiapi_sys::xiapi::XI_PRM_DEVICE_SENS_SN;
+            Parameter::DeviceInstancePath,  xiapi_sys::xiapi::XI_PRM_DEVICE_INSTANCE_PATH;
+            Parameter::DeviceUserID,  xiapi_sys::xiapi::XI_PRM_DEVICE_USER_ID;
             // Device acquisition settings
             Parameter::EXPOSURE,  xiapi_sys::xiapi::XI_PRM_EXPOSURE;
             Parameter::GAIN_SELECTOR,  xiapi_sys::xiapi::XI_PRM_GAIN_SELECTOR;
